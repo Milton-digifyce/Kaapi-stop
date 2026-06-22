@@ -93,11 +93,11 @@ nav.nav-light .nav-cta:hover {
 /* ── FLOATING CUP & SHADOW ── */
 #floating-cup{
   position:fixed;
-  z-index:10; 
+  z-index:50;
   pointer-events:none;
 }
 .cup-floater {
-  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  /* Stays completely static until class is added */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -105,12 +105,26 @@ nav.nav-light .nav-cta:hover {
   position: relative;
 }
 
-.cup-floater img {
+.cup-fill-wrap {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+}
+.cup-fill-wrap img {
   display: block;
   height: 200px;
   width: auto;
+}
+.cup-empty {
   position: relative;
   z-index: 2;
+}
+.cup-filled {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  clip-path: inset(100% 0 0% 0);
 }
 #cup-shadow {
   position: absolute;
@@ -143,13 +157,20 @@ section{
 /* ── HERO ── */
 #hero{
   background:var(--warm-white);
-  flex-direction:column;text-align:center;
-  padding-top: 10rem;
+  padding-top: 7rem;
 }
-.hero-content {
-  position:relative;
-  z-index:20; 
-  text-align:center;
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 3vw;
+  max-width: 1350px;
+  width: 100%;
+  align-items: center;
+  position: relative;
+  z-index: 20;
+}
+.hero-content-left {
+  text-align: left;
 }
 .hero-eyebrow{
   font-family:'Arial',sans-serif;font-size:.7rem;letter-spacing:4px;
@@ -157,15 +178,17 @@ section{
   margin-bottom:1.5rem;
 }
 .hero-h1{
-  font-size:clamp(2.5rem,8vw,6.5rem);
+  font-size:clamp(2.5rem,7vw,5.5rem);
   font-weight:400;line-height:1.05;
   color:var(--brown);
   margin-bottom:1.5rem;
 }
 .hero-h1 em{font-style:italic;color:var(--brown-light);}
 .hero-sub{
-  font-family:'Arial',sans-serif;font-size:clamp(0.9rem, 2.5vw, 1.05rem);
-  color:var(--text-muted);max-width:400px;margin:0 auto 2.5rem;
+  font-family:'Arial',sans-serif;font-size:clamp(0.9rem, 2vw, 1.05rem);
+  color:var(--text-muted);
+  max-width:480px;
+  margin:0 0 2.5rem 0;
   line-height:1.7;
 }
 .hero-btn{
@@ -178,6 +201,35 @@ section{
   transition:all .25s;
 }
 .hero-btn:hover{background:var(--brown-mid);transform:translateY(-2px);}
+
+.hero-image-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.hero-image-right img {
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  filter: drop-shadow(0 25px 35px rgba(61,28,8,0.15));
+  position: relative;
+  z-index: 5;
+}
+
+#hero-stream {
+  position: absolute;
+  top: 55%;
+  left: 48.5%;
+  width: 6px;
+  height: 0;
+  background: linear-gradient(to bottom, #3D1C08, #6B3520);
+  opacity: 0;
+  transform: translate(-72px, 23px);
+  border-radius: 3px;
+  z-index: 6;
+  pointer-events: none;
+}
 
 .scroll-hint{
   position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
@@ -199,64 +251,6 @@ section{
   background:var(--cream2);opacity:.5;
 }
 
-/* ── PROBLEM SECTION ── */
-#problem{
-  background:var(--cream);
-}
-.two-col{
-  display:grid;grid-template-columns:1fr 1fr;gap:5vw;
-  max-width:1000px;width:100%;align-items:center;
-}
-.label-tag{
-  font-family:'Arial',sans-serif;font-size:.65rem;letter-spacing:3px;
-  text-transform:uppercase;color:var(--brown-light);margin-bottom:1rem;
-  display:block;
-}
-.big-h{
-  font-size:clamp(2rem,5vw,3.2rem);font-weight:400;
-  color:var(--brown);line-height:1.15;margin-bottom:1.25rem;
-}
-.body-p{
-  font-family:'Arial',sans-serif;font-size:clamp(0.9rem, 2vw, 0.95rem);
-  color:var(--text-muted);line-height:1.8;
-}
-
-.compare-block { margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; }
-.compare-item {
-  padding: 1.25rem 1.5rem;
-  border-radius: 4px;
-  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-  cursor: default;
-}
-.compare-item.bad { 
-  background: rgba(61,28,8,.04); 
-  border-left: 3px solid rgba(61,28,8,.2); 
-}
-.compare-item.bad:hover {
-  background: rgba(61,28,8,.08);
-  transform: translateX(8px) translateY(-2px);
-  box-shadow: -4px 12px 24px rgba(61, 28, 8, 0.05);
-  border-left-color: rgba(61,28,8,.4);
-}
-.compare-item.good { 
-  background: rgba(61,28,8,.08); 
-  border-left: 3px solid var(--brown); 
-}
-.compare-item.good:hover {
-  background: rgba(61,28,8,.12);
-  transform: translateX(8px) translateY(-2px);
-  box-shadow: -4px 12px 24px rgba(61, 28, 8, 0.08);
-  border-left-color: var(--brown-light);
-}
-.compare-item .ci-label {
-  font-family: 'Arial', sans-serif; font-size: .65rem; letter-spacing: 2px;
-  text-transform: uppercase; margin-bottom: .4rem;
-  color: var(--text-muted);
-}
-.compare-item .ci-val {
-  font-size: clamp(0.95rem, 2vw, 1.1rem); color: var(--brown); line-height: 1.4;
-}
-
 /* ── COST SECTION ── */
 #cost{
   background:var(--brown);
@@ -264,6 +258,19 @@ section{
 #cost .label-tag{color:rgba(245,237,224,.5);}
 #cost .big-h{color:var(--cream);}
 #cost .body-p{color:rgba(245,237,224,.65);}
+.label-tag {
+  font-family: 'Arial', sans-serif; font-size: .65rem; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--brown-light); margin-bottom: 1rem;
+  display: block;
+}
+.big-h {
+  font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 400;
+  color: var(--brown); line-height: 1.15; margin-bottom: 1.25rem;
+}
+.body-p {
+  font-family: 'Arial', sans-serif; font-size: clamp(0.9rem, 2vw, 0.95rem);
+  color: var(--text-muted); line-height: 1.8;
+}
 
 .cost-flex-container {
   display: flex;
@@ -354,6 +361,77 @@ section{
 .feat-cell h4 { font-size: 1.1rem; font-weight: 600; color: var(--brown); margin-bottom: .75rem; }
 .feat-cell p { font-family: 'Arial', sans-serif; font-size: 0.85rem; color: var(--brown); line-height: 1.6; opacity: 0.85; }
 
+/* ── OWNERSHIP / PRICING ── */
+#ownership {
+  background: var(--warm-white);
+  flex-direction: column;
+}
+.own-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  max-width: 1000px;
+  width: 100%;
+  margin-top: 3.5rem;
+}
+.own-card {
+  padding: 3rem 2.5rem;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.own-card.buy  { background: var(--brown); }
+.own-card.rent { background: var(--cream); border: 1px solid rgba(61,28,8,0.12); }
+.own-card-icon {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.own-card.buy  .own-card-icon { background: rgba(245,237,224,.1); }
+.own-card.rent .own-card-icon { background: rgba(61,28,8,.05); }
+.own-card-icon svg { width: 28px; height: 28px; fill: none; stroke-width: 1.5; }
+.own-card.buy  .own-card-icon svg { stroke: var(--cream); }
+.own-card.rent .own-card-icon svg { stroke: var(--brown); }
+.own-tag {
+  font-family: 'Arial', sans-serif; font-size: .6rem; letter-spacing: 3px;
+  text-transform: uppercase; padding: .3rem .9rem; border-radius: 20px;
+  align-self: flex-start; display: inline-block;
+}
+.own-card.buy  .own-tag { background: rgba(245,237,224,.12); color: rgba(245,237,224,.65); }
+.own-card.rent .own-tag { background: rgba(160,98,58,.12); color: var(--brown-light); }
+.own-card-title {
+  font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; line-height: 1;
+}
+.own-card.buy  .own-card-title { color: var(--cream); }
+.own-card.rent .own-card-title { color: var(--brown); }
+.own-card-desc {
+  font-family: 'Arial', sans-serif; font-size: .9rem; line-height: 1.75;
+}
+.own-card.buy  .own-card-desc { color: rgba(245,237,224,.6); }
+.own-card.rent .own-card-desc { color: var(--text-muted); }
+.own-perks {
+  list-style: none; padding: 0; margin: 0; flex: 1;
+  display: flex; flex-direction: column; gap: .8rem;
+}
+.own-perks li {
+  font-family: 'Arial', sans-serif; font-size: .85rem;
+  display: flex; align-items: flex-start; gap: .65rem; line-height: 1.5;
+}
+.own-perks li::before { content: '—'; flex-shrink: 0; margin-top: 1px; color: var(--brown-light); }
+.own-card.buy  .own-perks li { color: rgba(245,237,224,.72); }
+.own-card.rent .own-perks li { color: var(--text-muted); }
+.own-cta {
+  display: inline-block; text-align: center;
+  padding: .9rem 2rem; border-radius: 2px; margin-top: .5rem;
+  font-family: 'Arial', sans-serif; font-size: .75rem; letter-spacing: 2px;
+  text-transform: uppercase; border: none; cursor: pointer;
+  transition: all .25s; text-decoration: none;
+}
+.own-card.buy  .own-cta { background: var(--cream); color: var(--brown); }
+.own-card.buy  .own-cta:hover { background: var(--cream2); transform: translateY(-2px); }
+.own-card.rent .own-cta { background: var(--brown); color: var(--cream); }
+.own-card.rent .own-cta:hover { background: var(--brown-mid); transform: translateY(-2px); }
+
 /* ── TESTIMONIALS ── */
 #testimonials{
   background:var(--cream);
@@ -401,7 +479,6 @@ section{
 }
 .d-arrow { position: absolute; stroke: var(--cream); fill: none; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
 
-/* Adjusted initial anchor points for arrows to avoid overlap with Title & Button */
 .da-1 { top: 25%; left: 15%; width: 140px; height: 140px; }
 .da-2 { top: 25%; right: 15%; width: 140px; height: 140px; stroke-dasharray: 12 12; }
 .da-3 { top: 50%; left: 8%; width: 140px; height: 70px; stroke-dasharray: 12 12; transform: translateY(-50%); }
@@ -413,7 +490,7 @@ section{
   position:relative; z-index:2; display:flex; flex-direction:column;
   align-items:center; justify-content:space-between; 
   width: 100%; height: 100%; 
-  padding: 15vh 5vw; /* Keeps text away from top and button away from bottom */
+  padding: 15vh 5vw; 
 }
 .cup-spacer { flex: 1; width: 100%; min-height: 250px; }
 .final-h{
@@ -494,7 +571,6 @@ footer ul { list-style: none; padding: 0; margin: 0; }
 
 @media(max-width:900px){
   .da-3, .da-4 { display: none; } 
-  /* Push arrows tightly inward on mobile to frame the cup safely */
   .da-1 { top: 30%; left: 5%; width: 90px; height: 90px; }
   .da-2 { top: 30%; right: 5%; width: 90px; height: 90px; }
   .da-5 { bottom: 30%; left: 10%; width: 90px; height: 90px; }
@@ -506,20 +582,19 @@ footer ul { list-style: none; padding: 0; margin: 0; }
   nav { padding: 1rem 5vw; }
   .logo-main { height: 70px; } 
   
-  #floating-cup { z-index: 15; } 
-  #hero .hero-content { z-index: 20; }
-  #problem .two-col { z-index: 20 !important; }
-
+  #hero { padding-top: 8rem; padding-bottom: 4rem; display: flex; flex-direction: column;}
+  .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 3rem; }
+  .hero-content-left { text-align: center; }
+  .hero-h1 { text-align: center !important; }
+  .hero-sub { text-align: center !important; margin: 0 auto 1.5rem auto !important; }
+  
   section { padding: 4.5rem 5vw; }
-  #hero { padding-top: 8rem; padding-bottom: 4rem; }
   
   #testimonials { min-height: fit-content; }
 
-  /* Expanded padding for final section on mobile to ensure title/button stay clear of arrows */
   .final-content { padding: 22vh 5vw 15vh; }
   .final-h { font-size: clamp(2.2rem, 9vw, 3rem); }
 
-  .two-col { grid-template-columns: 1fr; gap: 2.5rem; }
   .cost-flex-container { flex-direction: column; text-align: center; gap: 1rem; }
   .cost-center-space { height: 260px; flex: none; width: 100%; } 
   .equals-and-price { justify-content: center; flex-direction: column; gap: 0.5rem; }
@@ -527,45 +602,19 @@ footer ul { list-style: none; padding: 0; margin: 0; }
   .price-display { text-align: center; }
   .cost-pills { justify-content: center; }
   
-  /* Reduced gap for medium tablet slightly */
   .feat-grid { gap: 20px; }
   .m-btns { grid-template-columns: 1fr; }
+  .own-grid { grid-template-columns: 1fr; }
+  .own-card { padding: 2.5rem 1.75rem; }
 }
 
-/* --- MOBILE SPECIFIC FIX FOR FEATURE GRID (2 COLUMNS) --- */
 @media(max-width:550px){
-  /* Change to 2 columns and reduce the gap so they fit */
-  .feat-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 12px;
-  }
-  
-  /* Scale down the cards slightly for mobile */
-  .feat-cell {
-    padding: 1.5rem 1rem 1.25rem;
-  }
-  
-  /* Scale down the icon */
-  .feat-icon-wrap {
-    width: 50px; 
-    height: 50px;
-    margin-bottom: 1rem;
-  }
-  .feat-icon-wrap svg { 
-    width: 24px; 
-    height: 24px; 
-  }
-  
-  /* Scale down the text */
-  .feat-cell h4 { 
-    font-size: 0.95rem; 
-    margin-bottom: 0.5rem;
-  }
-  .feat-cell p { 
-    font-size: 0.75rem; 
-    line-height: 1.4;
-  }
-  
+  .feat-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px; }
+  .feat-cell { padding: 1.5rem 1rem 1.25rem; }
+  .feat-icon-wrap { width: 50px; height: 50px; margin-bottom: 1rem; }
+  .feat-icon-wrap svg { width: 24px; height: 24px; }
+  .feat-cell h4 { font-size: 0.95rem; margin-bottom: 0.5rem; }
+  .feat-cell p { font-size: 0.75rem; line-height: 1.4; }
   .tcard{min-width: 85vw;}
 }
 
@@ -582,10 +631,13 @@ footer ul { list-style: none; padding: 0; margin: 0; }
   <a href="#final" class="nav-cta" onclick="openModal();return false;">Book a Demo</a>
 </nav>
 
-<div id="floating-cup">
-  <div class="cup-floater is-floating">
-    <img src="assets/mock.png" alt="Floating Cup">
-    <div id="cup-shadow"></div>
+<div id="floating-cup" style="left: 73%; top: 67%; transform: translate(-63%, -61%) translate(-77.9875px, 128px) scale(0.48, 0.48); translate: none; rotate: none; scale: none; opacity: 0;">
+  <div class="cup-floater">
+    <div class="cup-fill-wrap">
+      <img class="cup-empty" src="assets/Kaapistopdabra.png" alt="Cup Empty">
+      <img class="cup-filled" id="cup-filled-img" src="assets/KaapiStop3.png" alt="Cup Filled">
+    </div>
+    <div id="cup-shadow" style="transform: translate(0px, 0px); opacity: 0.8; translate: none; rotate: none; scale: none;"></div>
   </div>
 </div>
 
@@ -594,40 +646,24 @@ footer ul { list-style: none; padding: 0; margin: 0; }
     <div class="p-circle" style="width:500px;height:500px;top:-100px;right:-120px;"></div>
     <div class="p-circle" style="width:200px;height:200px;bottom:80px;left:8%;opacity:.3;"></div>
   </div>
-  <div class="hero-content">
-    <p class="hero-eyebrow reveal">Commercial Coffee Machines</p>
-    <h1 class="hero-h1 reveal rd1">Every cup.<br><em>Same perfection.</em></h1>
-    <p class="hero-sub reveal rd2">Kaapistop machines serve consistent coffee — same taste, aroma, and thickness, every single time.</p>
-    <button class="hero-btn reveal rd3" onclick="openModal()">Book a Demo</button>
+  
+  <div class="hero-grid">
+    <div class="hero-content-left">
+      <p class="hero-eyebrow reveal">Smart Coffee Vending</p>
+      <h1 class="hero-h1 reveal rd1">Filter Coffee.<br><em>Automated.</em></h1>
+      <p class="hero-sub reveal rd2">Experience the perfect blend of tradition and technology. Our smart vending machines deliver authentic South Indian filter coffee with zero human error, designed for high-volume commercial spaces.</p>
+      <button class="hero-btn reveal rd3" onclick="openModal()">Book a Demo</button>
+    </div>
+    
+    <div class="hero-image-right reveal rd3" style="position: relative;">
+      <img src="assets/Kaapi Stop machine 2.png" alt="Kaapistop Coffee Vending Machine">
+      
+    </div>
   </div>
+
   <div class="scroll-hint">
     <div class="scroll-line"></div>
     <span>Scroll</span>
-  </div>
-</section>
-
-<section id="problem">
-  <div class="parallax-bg" id="pbg-prob">
-    <div class="p-circle" style="width:300px;height:300px;bottom:-80px;right:-60px;opacity:.3;"></div>
-  </div>
-  <div class="two-col" style="position:relative;z-index:2;">
-    <div>
-      <span id="txt-the-problem" class="label-tag reveal">The Problem</span>
-      <h2 class="big-h reveal rd1">Coffee tastes different every day.</h2>
-      <p class="body-p reveal rd2">Human preparation is unpredictable. Grind, water, timing — small changes mean big differences in the cup your customer gets.</p>
-    </div>
-
-    <div class="compare-block reveal rd2">
-      <div class="compare-item bad">
-        <div class="ci-label">Manual Brewing</div>
-        <div class="ci-val">Thickness varies · Taste inconsistent · Wastage high</div>
-      </div>
-      <div class="compare-item good">
-        <div class="ci-label">Kaapistop Machine</div>
-        <div class="ci-val">Same thickness · Same taste · Zero wastage</div>
-      </div>
-      <p class="body-p" style="margin-top:1rem;font-size:.85rem;">Your regulars notice. Consistency builds loyalty. Inconsistency drives them elsewhere.</p>
-    </div>
   </div>
 </section>
 
@@ -710,6 +746,47 @@ footer ul { list-style: none; padding: 0; margin: 0; }
   </div>
 </section>
 
+<section id="ownership">
+  <div style="max-width:1000px;width:100%;position:relative;z-index:2;text-align:center;">
+    <span class="label-tag reveal" style="display:block;">Flexible Plans</span>
+    <h2 class="big-h reveal rd1">Own it. Or rent it.</h2>
+    <p class="body-p reveal rd2" style="max-width:520px;margin:0 auto;">Whether you want full ownership or a low-commitment rental, we have a plan built around your business.</p>
+
+    <div class="own-grid">
+      <div class="own-card buy reveal rd1">
+        <div class="own-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <span class="own-tag">One-time purchase</span>
+        <div class="own-card-title">Buy</div>
+        <p class="own-card-desc">A single investment. Full ownership of your machine with no recurring lease costs — ever.</p>
+        <ul class="own-perks">
+          <li>Complete ownership, zero monthly fees</li>
+          <li>Priority service &amp; warranty included</li>
+          <li>Custom branding on the machine</li>
+          <li>Best value for high-volume operations</li>
+        </ul>
+        <button class="own-cta" onclick="openModal()">Get a Quote</button>
+      </div>
+
+      <div class="own-card rent reveal rd2">
+        <div class="own-card-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <span class="own-tag">Monthly rental</span>
+        <div class="own-card-title">Rent</div>
+        <p class="own-card-desc">Low upfront cost, flexible terms. We handle all servicing so you stay focused on your customers.</p>
+        <ul class="own-perks">
+          <li>Minimal upfront investment</li>
+          <li>Maintenance &amp; servicing included</li>
+          <li>Upgrade or return with 30-day notice</li>
+          <li>Ideal for new or seasonal setups</li>
+        </ul>
+        <button class="own-cta" onclick="openModal()">Start Renting</button>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section id="testimonials">
   <div style="max-width:900px;width:100%;position:relative;z-index:2;">
@@ -718,7 +795,7 @@ footer ul { list-style: none; padding: 0; margin: 0; }
     <div class="tcard-wrap reveal rd2" id="ttrack">
       <div class="tcard">
         <video controls preload="metadata">
-          <source src="assets/SSF_June_Squash_influencer rework_j-01 (1) (1).mp4" type="video/mp4">
+          <source src="assets/KMCH.webm" type="video/mp4">
         </video>
         <div class="tcard-author">
           <strong>KMCH</strong>
@@ -727,7 +804,7 @@ footer ul { list-style: none; padding: 0; margin: 0; }
       </div>
       <div class="tcard">
         <video controls preload="metadata">
-          <source src="assets/SSF_June_Squash_influencer rework_j-01 (1) (1).mp4" type="video/mp4">
+          <source src="assets/LLOYDS.webm" type="video/mp4">
         </video>
         <div class="tcard-author">
           <strong>LLOYDS</strong>
@@ -736,7 +813,7 @@ footer ul { list-style: none; padding: 0; margin: 0; }
       </div>
       <div class="tcard">
         <video controls preload="metadata">
-          <source src="assets/SSF_June_Squash_influencer rework_j-01 (1) (1).mp4" type="video/mp4">
+          <source src="assets/Naaval Properties Render.webm" type="video/mp4">
         </video>
         <div class="tcard-author">
           <strong>NAVAL Properties</strong>
@@ -745,7 +822,7 @@ footer ul { list-style: none; padding: 0; margin: 0; }
       </div>
       <div class="tcard">
         <video controls preload="metadata">
-          <source src="assets/SSF_June_Squash_influencer rework_j-01 (1) (1).mp4" type="video/mp4">
+          <source src="assets/Perumal Silks.webm" type="video/mp4">
         </video>
         <div class="tcard-author">
           <strong>Perumal Silks</strong>
@@ -759,8 +836,6 @@ footer ul { list-style: none; padding: 0; margin: 0; }
     </div>
   </div>
 </section>
-
-```
 
 <section id="final">
   <div class="decor-arrows">
@@ -896,13 +971,13 @@ footer ul { list-style: none; padding: 0; margin: 0; }
 // ── PARALLAX ──
 const parallaxBgs = [
   {el:document.getElementById('pbg-hero'),  speed:0.4},
-  {el:document.getElementById('pbg-prob'),  speed:0.3},
   {el:document.getElementById('pbg-cost'),  speed:0.25},
 ];
 function doParallax(){
   const sy = window.scrollY;
   parallaxBgs.forEach(({el,speed})=>{
-    if(el) el.style.transform = `translateY(${sy*speed}px)`;
+    if(!el) return;
+    el.style.transform = `translateY(${sy*speed}px)`;
   });
 }
 window.addEventListener('scroll', doParallax, {passive:true});
@@ -913,25 +988,27 @@ gsap.registerPlugin(ScrollTrigger);
 const cup = document.getElementById('floating-cup');
 const shadow = document.getElementById('cup-shadow');
 
-gsap.set(cup, {
-  top: "50%", 
-  left: "50%",
-  xPercent: -50,
-  yPercent: -50,
-  scale: 2.2, 
-  rotation: -20
-});
-
 // Nav specific interactions
 ScrollTrigger.create({ trigger: "#cost", start: "top 15%", end: "bottom 15%", toggleClass: { targets: "nav", className: "nav-light" }});
 ScrollTrigger.create({ trigger: "#final", start: "top 15%", end: "bottom top", toggleClass: { targets: "nav", className: "nav-light" }});
 
-// Stop floating animation ONLY in the final section
+// Start floating animation strictly after the pinned hero section finishes
+// By triggering when #cost reaches 70% from top, it guarantees the user has scrolled past the hero setup
 ScrollTrigger.create({
-  trigger: "#final", start: "top 60%", 
+  trigger: "#cost", 
+  start: "top 70%", 
+  onEnter: () => document.querySelector(".cup-floater").classList.add("is-floating"), 
+  onLeaveBack: () => document.querySelector(".cup-floater").classList.remove("is-floating") 
+});
+
+// Stop floating animation in the final section
+ScrollTrigger.create({
+  trigger: "#final", 
+  start: "top 60%", 
   onEnter: () => document.querySelector(".cup-floater").classList.remove("is-floating"), 
   onLeaveBack: () => document.querySelector(".cup-floater").classList.add("is-floating") 
 });
+
 
 // Feature grid animations
 gsap.fromTo("#features .label-tag, #features .big-h", 
@@ -983,55 +1060,78 @@ document.querySelectorAll(".d-arrow").forEach((arrow, i) => {
 
 let mm = gsap.matchMedia();
 
-// ── DESKTOP ANIMATIONS ──
+// ── RESPONSIVE MAIN SCROLL ANIMATIONS ──
 mm.add("(min-width: 769px)", () => {
-  gsap.to(cup, {
-    scrollTrigger: { trigger: "#problem", start: "top 80%", end: "top 25%", scrub: 1.2 },
-    left: "24vw", top: "28%", scale: 0.65, rotation: 0 
+  
+  // Set GSAP values precisely from the required initial static state to avoid jumps
+  gsap.set(cup, {
+    left: "73%",
+    top: "67%",
+    xPercent: -63,
+    yPercent: -61,
+    x: -77.9875,
+    y: 128,
+    scale: 0.48,
+    rotation: 0
   });
-  gsap.fromTo(shadow, 
-    { opacity: 0, y: 60, scale: 0.4 },
-    { scrollTrigger: { trigger: "#problem", start: "top 45%", end: "top 25%", scrub: true }, opacity: 0.8, y: 0, scale: 1 }
-  );
-  gsap.fromTo("#problem .two-col > div:first-child", { y: 30 }, { y: -30, ease: "none", scrollTrigger: { trigger: "#problem", start: "top bottom", end: "bottom top", scrub: 1 }});
-  gsap.fromTo("#problem .two-col .compare-block", { y: 70 }, { y: -70, ease: "none", scrollTrigger: { trigger: "#problem", start: "top bottom", end: "bottom top", scrub: 1.2 }});
+  
+  gsap.set(shadow, { opacity: 0.8, y: 0, scale: 1 });
 
-  gsap.fromTo(cup, 
-    { left: "24vw", top: "28%", scale: 0.65, rotation: 0 },
-    { scrollTrigger: { trigger: "#cost", start: "top 85%", end: "top 30%", scrub: 1.2 }, left: "50%", top: "50%", scale: 1.6, rotation: 0, immediateRender: false }
+  // Fade the cup in on page load, matching the hero reveal timing
+  gsap.fromTo(cup, { opacity: 0 }, { opacity: 1, duration: 1, delay: 0.4, ease: "power2.out" });
+
+  // 1. Animate from Hero down to the Cost section — starts the moment #cost first enters the viewport
+  gsap.fromTo(cup,
+    { left: "73%", top: "67%", xPercent: -63, yPercent: -61, x: -77.9875, y: 128, scale: 0.48, rotation: 0 },
+    { scrollTrigger: { trigger: "#cost", start: "top 100%", end: "top 20%", scrub: 1.2 }, left: "50%", top: "50%", xPercent: -50, yPercent: -50, x: 0, y: 0, scale: 1.6, rotation: 0, immediateRender: false }
   );
-  gsap.fromTo(shadow, { opacity: 0.8, y: 0, scale: 1 }, { scrollTrigger: { trigger: "#cost", start: "top 95%", end: "top 75%", scrub: true }, opacity: 0, y: 30, scale: 0.5, immediateRender: false });
-  gsap.fromTo(shadow, { opacity: 0, y: 50, scale: 0.4 }, { scrollTrigger: { trigger: "#cost", start: "top 60%", end: "top 30%", scrub: true }, opacity: 0.9, y: 0, scale: 1.3, immediateRender: false });
+
+  // Coffee fill — slowly fills from bottom to top across all sections, completing at #final
+  gsap.fromTo("#cup-filled-img",
+    { clipPath: "inset(100% 0 0% 0)" },
+    { scrollTrigger: { trigger: "#cost", start: "top 100%", endTrigger: "#final", end: "center center", scrub: 1.2 }, clipPath: "inset(0% 0 0% 0)", ease: "none" }
+  );
+
+  gsap.fromTo(shadow, { opacity: 0.8, y: 0, scale: 1 }, { scrollTrigger: { trigger: "#cost", start: "top 100%", end: "top 65%", scrub: true }, opacity: 0, y: 30, scale: 0.5, immediateRender: false });
+  gsap.fromTo(shadow, { opacity: 0, y: 50, scale: 0.4 }, { scrollTrigger: { trigger: "#cost", start: "top 50%", end: "top 20%", scrub: true }, opacity: 0.9, y: 0, scale: 1.3, immediateRender: false });
 
   gsap.fromTo("#cost .cost-flex-container", { maxWidth: 850, gap: "0rem" }, { scrollTrigger: { trigger: "#cost", start: "top 80%", end: "top 30%", scrub: 1.2 }, maxWidth: 1100, gap: "2rem", immediateRender: false });
   gsap.fromTo("#cost .content-block", { x: 150, opacity: 0 }, { scrollTrigger: { trigger: "#cost", start: "top 80%", end: "top 30%", scrub: 1.2 }, x: 0, opacity: 1, immediateRender: false });
   gsap.fromTo("#cost .price-display", { x: -150, opacity: 0 }, { scrollTrigger: { trigger: "#cost", start: "top 80%", end: "top 30%", scrub: 1.2 }, x: 0, opacity: 1, immediateRender: false });
   gsap.fromTo("#cost .equals-sign", { opacity: 0, scale: 0.5 }, { scrollTrigger: { trigger: "#cost", start: "top 60%", end: "top 30%", scrub: 1.2 }, opacity: 1, scale: 1, immediateRender: false });
 
+  // 3. To Features
   gsap.fromTo(cup, 
-    { left: "50%", top: "50%", scale: 1.6, rotation: 0 },
+    { left: "50%", top: "50%", xPercent: -50, yPercent: -50, x: 0, y: 0, scale: 1.6, rotation: 0 },
     { scrollTrigger: { trigger: "#features", start: "top 70%", end: "top 20%", scrub: 1.2 }, left: "80vw", top: "40%", scale: 1, rotation: 330, immediateRender: false }
   );
   gsap.to(shadow, { scrollTrigger: { trigger: "#features", start: "top 70%", end: "top 20%", scrub: true }, opacity: 0, immediateRender: false });
 
-  gsap.fromTo(cup, 
+  // 4. To Final
+  gsap.fromTo(cup,
     { left: "80vw", top: "40%", scale: 1, rotation: 330 },
-    { scrollTrigger: { trigger: "#final", start: "top 60%", end: "top 10%", scrub: 1.2 }, left: "50%", top: "50%", scale: 1.7, rotation: 360, immediateRender: false }
+    { scrollTrigger: { trigger: "#final", start: "top 60%", end: "top 10%", scrub: 1.2 }, left: "50%", top: "50%", scale: 1.5, rotation: 360, immediateRender: false }
   );
   gsap.fromTo(shadow, { opacity: 0 }, { scrollTrigger: { trigger: "#final", start: "top 60%", end: "top 10%", scrub: 1.2 }, opacity: 1, immediateRender: false });
 });
 
 // ── MOBILE ANIMATIONS ──
 mm.add("(max-width: 768px)", () => {
-  gsap.set(cup, { scale: 1.3, top: "45%" });
+  // Setup mobile initial state aligned with the desktop starting format
+  gsap.set(cup, { left: "50%", top: "72%", xPercent: -50, yPercent: -50, x: 0, y: 0, scale: 0.48, rotation: 0 });
+  gsap.set(shadow, { opacity: 0.8, y: 0, scale: 1 });
 
-  gsap.to(cup, {
-    scrollTrigger: { trigger: "#problem", start: "top 85%", end: "top 20%", scrub: 1 },
-    left: "50%", top: "48%", scale: 0.8, rotation: 10
-  });
+  gsap.fromTo(cup, { opacity: 0 }, { opacity: 1, duration: 1, delay: 0.4, ease: "power2.out" });
 
-  gsap.fromTo(cup, 
-    { left: "50%", top: "48%", scale: 0.8, rotation: 10 },
+  // Coffee fill — mobile, slowly fills across all sections, completing at #final
+  gsap.fromTo("#cup-filled-img",
+    { clipPath: "inset(100% 0 0% 0)" },
+    { scrollTrigger: { trigger: "#cost", start: "top 100%", endTrigger: "#final", end: "center center", scrub: 1 }, clipPath: "inset(0% 0 0% 0)", ease: "none" }
+  );
+
+  // 1. Animate from Hero down to the Cost section
+  gsap.fromTo(cup,
+    { left: "50%", top: "72%", scale: 0.48, rotation: 0 },
     { scrollTrigger: { trigger: "#cost", start: "top 80%", end: "top 40%", scrub: 1 }, left: "50%", top: "52%", scale: 1.3, rotation: -5, immediateRender: false }
   );
 
@@ -1073,7 +1173,6 @@ function submitForm() {
   const btn = document.getElementById('submit-btn');
   const originalText = btn.innerText;
   
-  // 1. Gather form values
   const payload = {
     fullName: document.getElementById('m-fullname').value,
     businessName: document.getElementById('m-business').value,
@@ -1081,33 +1180,28 @@ function submitForm() {
     phoneNumber: document.getElementById('m-phone').value
   };
 
-  // 2. Basic Validation
   if(!payload.fullName || !payload.email || !payload.phoneNumber) {
     alert("Please fill in your Name, Email, and Phone Number.");
     return;
   }
 
-  // 3. UI Loading State
   btn.innerText = 'Sending...';
   btn.disabled = true;
 
-  // 4. Send POST request to Google Apps Script
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxjpcYByRU7aehEehMDmdtHiWAdJm0eFxUAmIlkqp6qoRt1mMwyukId_WR7FDnLltGh/exec';
 
   fetch(SCRIPT_URL, {
     method: 'POST',
-    mode: 'no-cors', // Using no-cors prevents browser cross-origin blocks for basic POSTs
+    mode: 'no-cors',
     headers: {
-      'Content-Type': 'text/plain' // Plain text content-type stops complex preflight requests
+      'Content-Type': 'text/plain'
     },
     body: JSON.stringify(payload)
   })
   .then(() => {
-    // 5. Success behavior (no-cors makes response opaque, so we assume success here)
     document.getElementById('m-form').style.display = 'none'; 
     document.getElementById('m-success').style.display = 'block';
     
-    // Clear out input fields
     document.getElementById('m-fullname').value = '';
     document.getElementById('m-business').value = '';
     document.getElementById('m-email').value = '';
@@ -1118,7 +1212,6 @@ function submitForm() {
     alert("Something went wrong with the submission. Please try again.");
   })
   .finally(() => {
-    // 6. Reset button state
     btn.innerText = originalText;
     btn.disabled = false;
   });
