@@ -379,6 +379,7 @@ section{
   border-radius: 4px;
   display: flex;
   flex-direction: column;
+  max-width: 470px;
   gap: 1.5rem;
 }
 .own-card.buy  { background: var(--brown); }
@@ -747,7 +748,7 @@ footer ul { list-style: none; padding: 0; margin: 0; }
 </section>
 
 <section id="ownership">
-  <div style="max-width:1000px;width:100%;position:relative;z-index:2;text-align:center;">
+  <div style="max-width:1100px;width:100%;position:relative;z-index:2;text-align:center;">
     <span class="label-tag reveal" style="display:block;">Flexible Plans</span>
     <h2 class="big-h reveal rd1">Own it. Or rent it.</h2>
     <p class="body-p reveal rd2" style="max-width:520px;margin:0 auto;">Whether you want full ownership or a low-commitment rental, we have a plan built around your business.</p>
@@ -858,7 +859,7 @@ footer ul { list-style: none; padding: 0; margin: 0; }
   <div class="max-w-container-max-width mx-auto">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div class="space-y-6">
-              <img src="/assets/kaapiStoplogo.png" alt="Kaapi Stop Logo" class="h-28 w-auto object-contain brightness-0 invert">
+              <img src="assets/kaapiStoplogo.png" alt="Kaapi Stop Logo" class="h-28 w-auto object-contain brightness-0 invert">
               <p class="font-body-md text-on-primary/70 max-w-xs text-sm leading-relaxed">
                   Bringing you the finest coffee experience. A proud brand of Naval Foods & Beverages LLP.
               </p>
@@ -1111,6 +1112,18 @@ mm.add("(min-width: 769px)", () => {
   gsap.fromTo(cup,
     { left: "80vw", top: "40%", xPercent: -50, yPercent: -50, scale: 1, rotation: 330 },
     { scrollTrigger: { trigger: "#ownership", start: "top 70%", end: "top 20%", scrub: 1.2 }, left: "80vw", top: "40%", xPercent: -236, yPercent: -50, scale: 0.7, rotation: 330, immediateRender: false }
+  );
+
+  // 3b-cards. Fast snap split when cup enters — toggleActions so speed is fixed, not scroll-dependent.
+  gsap.fromTo(".own-card.buy",
+    { x: 0, y: 0, opacity: 1 },
+    { scrollTrigger: { trigger: "#ownership", start: "top 65%", toggleActions: "play none none reverse" },
+      x: -20, y: 0, opacity: 1, duration: 0.4, ease: "power3.out", overwrite: true }
+  );
+  gsap.fromTo(".own-card.rent",
+    { x: 0, y: 0, opacity: 1 },
+    { scrollTrigger: { trigger: "#ownership", start: "top 65%", toggleActions: "play none none reverse" },
+      x: 90, y: 0, opacity: 1, duration: 0.4, ease: "power3.out", overwrite: true }
   );
 
   // 3c. Ownership exit: return to right-side state
