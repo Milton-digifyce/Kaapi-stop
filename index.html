@@ -657,7 +657,7 @@ footer ul { list-style: none; padding: 0; margin: 0; }
     </div>
     
     <div class="hero-image-right reveal rd3" style="position: relative;">
-      <img src="assets/Kaapi Stop machine 2.png" alt="Kaapistop Coffee Vending Machine">
+      <img src="assets/Kaapi-Stop-machine 4.png" alt="Kaapistop Coffee Vending Machine">
 
     </div>
   </div>
@@ -1073,13 +1073,14 @@ mm.add("(min-width: 769px)", () => {
     x: -77.9875,
     y: 128,
     scale: 0.48,
-    rotation: 0
+    rotation: 0,
+    opacity: 0
   });
-  
+
   gsap.set(shadow, { opacity: 0.8, y: 0, scale: 1 });
 
-  // Fade the cup in on page load, matching the hero reveal timing
-  gsap.fromTo(cup, { opacity: 0 }, { opacity: 1, duration: 1, delay: 0.4, ease: "power2.out" });
+  // Fade the cup in as the user scrolls — invisible on hero, appears when cost section enters
+  gsap.fromTo(cup, { opacity: 0 }, { scrollTrigger: { trigger: "#cost", start: "top 90%", end: "top 55%", scrub: 0.8 }, opacity: 1, immediateRender: false });
 
   // 1. Animate from Hero down to the Cost section — starts the moment #cost first enters the viewport
   gsap.fromTo(cup,
@@ -1143,10 +1144,11 @@ mm.add("(min-width: 769px)", () => {
 // ── MOBILE ANIMATIONS ──
 mm.add("(max-width: 768px)", () => {
   // Setup mobile initial state aligned with the desktop starting format
-  gsap.set(cup, { left: "50%", top: "72%", xPercent: -65, yPercent: 4, x: 0, y: 0, scale: 0.30, rotation: 0 });
+  gsap.set(cup, { left: "50%", top: "72%", xPercent: -65, yPercent: 4, x: 0, y: 0, scale: 0.30, rotation: 0, opacity: 0 });
   gsap.set(shadow, { opacity: 0.8, y: 0, scale: 1 });
 
-  gsap.fromTo(cup, { opacity: 0 }, { opacity: 1, duration: 1, delay: 0.4, ease: "power2.out" });
+  // Fade in on scroll — invisible on hero, appears when cost section enters
+  gsap.fromTo(cup, { opacity: 0 }, { scrollTrigger: { trigger: "#cost", start: "top 90%", end: "top 55%", scrub: 0.8 }, opacity: 1, immediateRender: false });
 
   // Coffee fill — mobile, slowly fills across all sections, completing at #final
   gsap.fromTo("#cup-filled-img",
