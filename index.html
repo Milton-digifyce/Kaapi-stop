@@ -92,12 +92,14 @@ nav.nav-light .nav-cta:hover {
 
 /* ── FLOATING CUP & SHADOW ── */
 #floating-cup{
-  position:fixed;
-  z-index:50;
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index:9999;
   pointer-events:none;
 }
 .cup-floater {
-  /* Stays completely static until class is added */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -217,20 +219,6 @@ section{
   z-index: 5;
 }
 
-#hero-stream {
-  position: absolute;
-  top: 55%;
-  left: 48.5%;
-  width: 6px;
-  height: 0;
-  background: linear-gradient(to bottom, #3D1C08, #6B3520);
-  opacity: 0;
-  transform: translate(-72px, 23px);
-  border-radius: 3px;
-  z-index: 6;
-  pointer-events: none;
-}
-
 .scroll-hint{
   position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
   font-family:'Arial',sans-serif;font-size:.65rem;letter-spacing:2px;
@@ -287,6 +275,7 @@ section{
 }
 .cost-center-space {
   flex: 0 0 250px; 
+  position: relative;
 }
 .equals-and-price {
   flex: 1;
@@ -488,7 +477,7 @@ section{
 .da-6 { bottom: 25%; right: 15%; width: 140px; height: 140px; }
 
 .final-content{
-  position:relative; z-index:2; display:flex; flex-direction:column;
+  position:relative;  display:flex; flex-direction:column;
   align-items:center; justify-content:space-between; 
   width: 100%; height: 100%; 
   padding: 15vh 5vw; 
@@ -597,7 +586,7 @@ footer ul { list-style: none; padding: 0; margin: 0; }
   .final-h { font-size: clamp(2.2rem, 9vw, 3rem); }
 
   .cost-flex-container { flex-direction: column; text-align: center; gap: 1rem; }
-  .cost-center-space { height: 260px; flex: none; width: 100%; } 
+  .cost-center-space { height: 260px; flex: none; width: 100%; position: relative; } 
   .equals-and-price { justify-content: center; flex-direction: column; gap: 0.5rem; }
   .equals-sign { transform: rotate(90deg); margin: 0.5rem 0; }
   .price-display { text-align: center; }
@@ -631,16 +620,6 @@ footer ul { list-style: none; padding: 0; margin: 0; }
   <a href="#" class="nav-logo"><img class="logo-main" src="assets/kaapiStoplogo.png" alt="Kaapistop Logo"></a>
   <a href="#final" class="nav-cta" onclick="openModal();return false;">Book a Demo</a>
 </nav>
-
-<div id="floating-cup">
-  <div class="cup-floater">
-    <div class="cup-fill-wrap">
-      <img class="cup-empty" src="assets/Kaapistopdabra.png" alt="Cup Empty">
-      <img class="cup-filled" id="cup-filled-img" src="assets/KaapiStop3.png" alt="Cup Filled">
-    </div>
-    <div id="cup-shadow"></div>
-  </div>
-</div>
 
 <section id="hero">
   <div class="parallax-bg" id="pbg-hero">
@@ -684,7 +663,19 @@ footer ul { list-style: none; padding: 0; margin: 0; }
         <span class="pill">Lower overheads</span>
       </div>
     </div>
-    <div class="cost-center-space"></div>
+    
+    <div class="cost-center-space">
+      <div id="floating-cup">
+        <div class="cup-floater is-floating">
+          <div class="cup-fill-wrap z-10">
+            <img class="cup-empty z-10" src="assets/Kaapistopdabra.png" alt="Cup Empty">
+            <img class="cup-filled z-10" id="cup-filled-img" src="assets/KaapiStop3.png" alt="Cup Filled">
+          </div>
+          <div id="cup-shadow"></div>
+        </div>
+      </div>
+    </div>
+    
     <div class="equals-and-price">
       <div class="equals-sign">=</div>
       <div class="price-display">
@@ -696,7 +687,7 @@ footer ul { list-style: none; padding: 0; margin: 0; }
 </section>
 
 <section id="features">
-  <div style="max-width:1300px;width:100%;position:relative;z-index:2;text-align:center;">
+  <div style="max-width:1300px;width:100%;position:relative;text-align:center;">
     <span class="label-tag" style="display:block;">What You Get</span>
     <h2 class="big-h">Built for commercial kitchens.</h2>
     
@@ -748,7 +739,7 @@ footer ul { list-style: none; padding: 0; margin: 0; }
 </section>
 
 <section id="ownership">
-  <div style="max-width:1100px;width:100%;position:relative;z-index:2;text-align:center;">
+  <div style="max-width:1100px;width:100%;position:relative;text-align:center;">
     <span class="label-tag reveal" style="display:block;">Flexible Plans</span>
     <h2 class="big-h reveal rd1">Own it. Or rent it.</h2>
     <p class="body-p reveal rd2" style="max-width:520px;margin:0 auto;">Whether you want full ownership or a low-commitment rental, we have a plan built around your business.</p>
@@ -790,7 +781,7 @@ footer ul { list-style: none; padding: 0; margin: 0; }
 </section>
 
 <section id="testimonials">
-  <div style="max-width:900px;width:100%;position:relative;z-index:2;">
+  <div style="max-width:900px;width:100%;position:relative;">
     <span class="label-tag reveal">From our clients</span>
     <h2 class="big-h reveal rd1">They switched. They stayed.</h2>
     <div class="tcard-wrap reveal rd2" id="ttrack">
@@ -993,24 +984,6 @@ const shadow = document.getElementById('cup-shadow');
 ScrollTrigger.create({ trigger: "#cost", start: "top 15%", end: "bottom 15%", toggleClass: { targets: "nav", className: "nav-light" }});
 ScrollTrigger.create({ trigger: "#final", start: "top 15%", end: "bottom top", toggleClass: { targets: "nav", className: "nav-light" }});
 
-// Start floating animation strictly after the pinned hero section finishes
-// By triggering when #cost reaches 70% from top, it guarantees the user has scrolled past the hero setup
-ScrollTrigger.create({
-  trigger: "#cost", 
-  start: "top 70%", 
-  onEnter: () => document.querySelector(".cup-floater").classList.add("is-floating"), 
-  onLeaveBack: () => document.querySelector(".cup-floater").classList.remove("is-floating") 
-});
-
-// Stop floating animation in the final section
-ScrollTrigger.create({
-  trigger: "#final", 
-  start: "top 60%", 
-  onEnter: () => document.querySelector(".cup-floater").classList.remove("is-floating"), 
-  onLeaveBack: () => document.querySelector(".cup-floater").classList.add("is-floating") 
-});
-
-
 // Feature grid animations
 gsap.fromTo("#features .label-tag, #features .big-h", 
   { opacity: 0, y: -40 },
@@ -1064,117 +1037,105 @@ let mm = gsap.matchMedia();
 // ── RESPONSIVE MAIN SCROLL ANIMATIONS ──
 mm.add("(min-width: 769px)", () => {
   
-  // Set GSAP values precisely from the required initial static state to avoid jumps
-  gsap.set(cup, {
-    left: "73%",
-    top: "67%",
-    xPercent: -63,
-    yPercent: -61,
-    x: -77.9875,
-    y: 128,
-    scale: 0.48,
-    rotation: 0,
-    opacity: 0
+  // Setup initial scale
+  gsap.set(cup, { scale: 1.6, rotation: 0 });
+  gsap.set(shadow, { opacity: 0.9 });
+
+  // PIN the cup to the screen exactly when #cost hits top 20%
+  ScrollTrigger.create({
+    trigger: "#cost",
+    start: "top 20%",
+    end: "max", // Keep it pinned for the rest of the page
+    pin: "#floating-cup",
+    pinSpacing: false
   });
 
-  gsap.set(shadow, { opacity: 0.8, y: 0, scale: 1 });
-
-  // Fade the cup in as the user scrolls — invisible on hero, appears when cost section enters
-  gsap.fromTo(cup, { opacity: 0 }, { scrollTrigger: { trigger: "#cost", start: "top 90%", end: "top 55%", scrub: 0.8 }, opacity: 1, immediateRender: false });
-
-  // 1. Animate from Hero down to the Cost section — starts the moment #cost first enters the viewport
-  gsap.fromTo(cup,
-    { left: "73%", top: "67%", xPercent: -63, yPercent: -61, x: -77.9875, y: 128, scale: 0.48, rotation: 0 },
-    { scrollTrigger: { trigger: "#cost", start: "top 100%", end: "top 20%", scrub: 1.2 }, left: "50%", top: "50%", xPercent: -50, yPercent: -50, x: 0, y: 0, scale: 1.6, rotation: 0, immediateRender: false }
-  );
-
-  // Coffee fill — slowly fills from bottom to top across all sections, completing at #final
+  // Coffee fill starts filling at top 20%
   gsap.fromTo("#cup-filled-img",
     { clipPath: "inset(100% 0 0% 0)" },
-    { scrollTrigger: { trigger: "#cost", start: "top 100%", endTrigger: "#final", end: "center center", scrub: 1.2 }, clipPath: "inset(0% 0 0% 0)", ease: "none" }
+    { scrollTrigger: { trigger: "#cost", start: "top 20%", endTrigger: "#final", end: "center center", scrub: 1.2 }, clipPath: "inset(0% 0 0% 0)", ease: "none" }
   );
 
-  gsap.fromTo(shadow, { opacity: 0.8, y: 0, scale: 1 }, { scrollTrigger: { trigger: "#cost", start: "top 100%", end: "top 65%", scrub: true }, opacity: 0, y: 30, scale: 0.5, immediateRender: false });
-  gsap.fromTo(shadow, { opacity: 0, y: 50, scale: 0.4 }, { scrollTrigger: { trigger: "#cost", start: "top 50%", end: "top -34%", scrub: true }, opacity: 0.9, y: 0, scale: 1, immediateRender: false });
-
+  // Cost text animations
   gsap.fromTo("#cost .cost-flex-container", { maxWidth: 850, gap: "0rem" }, { scrollTrigger: { trigger: "#cost", start: "top 80%", end: "top 30%", scrub: 1.2 }, maxWidth: 1100, gap: "2rem", immediateRender: false });
   gsap.fromTo("#cost .content-block", { x: 150, opacity: 0 }, { scrollTrigger: { trigger: "#cost", start: "top 80%", end: "top 30%", scrub: 1.2 }, x: 0, opacity: 1, immediateRender: false });
   gsap.fromTo("#cost .price-display", { x: -150, opacity: 0 }, { scrollTrigger: { trigger: "#cost", start: "top 80%", end: "top 30%", scrub: 1.2 }, x: 0, opacity: 1, immediateRender: false });
   gsap.fromTo("#cost .equals-sign", { opacity: 0, scale: 0.5 }, { scrollTrigger: { trigger: "#cost", start: "top 60%", end: "top 30%", scrub: 1.2 }, opacity: 1, scale: 1, immediateRender: false });
 
-  // 3. To Features
-  gsap.fromTo(cup,
-    { left: "50%", top: "50%", xPercent: -50, yPercent: -50, x: 0, y: 0, scale: 1.6, rotation: 0 },
-    { scrollTrigger: { trigger: "#features", start: "top 70%", end: "top 20%", scrub: 1.2 }, left: "80vw", top: "40%", xPercent: -50, yPercent: -50, scale: 1, rotation: 330, immediateRender: false }
-  );
+  // 3. To Features (Animates from pinned position)
+  gsap.to(cup, {
+    scrollTrigger: { trigger: "#features", start: "top 70%", end: "top 20%", scrub: 1.2 },
+    left: "80vw", top: "40%", xPercent: -50, yPercent: -50, scale: 1, rotation: 330, immediateRender: false
+  });
+  
   gsap.to(shadow, { scrollTrigger: { trigger: "#features", start: "top 70%", end: "top 20%", scrub: true }, opacity: 0, immediateRender: false });
 
-  // 3b. Ownership enter: translate(-236%, -50%) rotate(330deg) scale(0.7)
-  gsap.fromTo(cup,
-    { left: "80vw", top: "40%", xPercent: -50, yPercent: -50, scale: 1, rotation: 330 },
-    { scrollTrigger: { trigger: "#ownership", start: "top 70%", end: "top 20%", scrub: 1.2 }, left: "80vw", top: "40%", xPercent: -236, yPercent: -50, scale: 0.7, rotation: 330, immediateRender: false }
-  );
+  // 3b. Ownership enter
+  gsap.to(cup, {
+    scrollTrigger: { trigger: "#ownership", start: "top 70%", end: "top 20%", scrub: 1.2 },
+    xPercent: -236, yPercent: -30, scale: 0.7, rotation: 360, immediateRender: false
+  });
 
-  // 3b-cards. Fast snap split when cup enters — toggleActions so speed is fixed, not scroll-dependent.
-  gsap.fromTo(".own-card.buy",
-    { x: 0, y: 0, opacity: 1 },
-    { scrollTrigger: { trigger: "#ownership", start: "top 65%", toggleActions: "play none none reverse" },
-      x: -20, y: 0, opacity: 1, duration: 0.4, ease: "power3.out", overwrite: true }
-  );
-  gsap.fromTo(".own-card.rent",
-    { x: 0, y: 0, opacity: 1 },
-    { scrollTrigger: { trigger: "#ownership", start: "top 65%", toggleActions: "play none none reverse" },
-      x: 90, y: 0, opacity: 1, duration: 0.4, ease: "power3.out", overwrite: true }
-  );
+  // Cards Split
+  gsap.fromTo(".own-card.buy", { x: 0, opacity: 1 }, { scrollTrigger: { trigger: "#ownership", start: "top 65%", toggleActions: "play none none reverse" }, x: -20, opacity: 1, duration: 0.4, ease: "power3.out", overwrite: true });
+  gsap.fromTo(".own-card.rent", { x: 0, opacity: 1 }, { scrollTrigger: { trigger: "#ownership", start: "top 65%", toggleActions: "play none none reverse" }, x: 90, opacity: 1, duration: 0.4, ease: "power3.out", overwrite: true });
 
-  // 3c. Ownership exit: return to right-side state
-  gsap.fromTo(cup,
-    { left: "80vw", top: "40%", xPercent: -236, yPercent: -50, scale: 0.7, rotation: 330 },
-    { scrollTrigger: { trigger: "#testimonials", start: "top 80%", end: "top 30%", scrub: 1.2 }, left: "80vw", top: "40%", xPercent: -50, yPercent: -50, scale: 1, rotation: 330, immediateRender: false }
-  );
+  // 3c. Ownership exit / Enter Testimonials
+  gsap.to(cup, {
+    scrollTrigger: { trigger: "#testimonials", start: "top 80%", end: "top 30%", scrub: 1.2 },
+    xPercent: -50, scale: 1, rotation: 335, immediateRender: false
+  });
 
-  // 4. To Final (from right side, original behavior)
-  gsap.fromTo(cup,
-    { left: "80vw", top: "40%", xPercent: -50, yPercent: -50, scale: 1, rotation: 330 },
-    { scrollTrigger: { trigger: "#final", start: "top 60%", end: "top 10%", scrub: 1.2 }, left: "50%", top: "50%", xPercent: -50, yPercent: -50, scale: 1.2, rotation: 360, immediateRender: false }
-  );
-  gsap.fromTo(shadow, { opacity: 0 }, { scrollTrigger: { trigger: "#final", start: "top 60%", end: "top 10%", scrub: 1.2 }, opacity: 1, immediateRender: false });
+  // 4. To Final
+  gsap.to(cup, {
+    scrollTrigger: { trigger: "#final", start: "top 60%", end: "top 10%", scrub: 1.2 },
+    left: "50%", top: "50%", xPercent: -50, yPercent: -50, scale: 1.2, rotation: 360, immediateRender: false
+  });
 });
 
 // ── MOBILE ANIMATIONS ──
 mm.add("(max-width: 768px)", () => {
-  // Setup mobile initial state aligned with the desktop starting format
-  gsap.set(cup, { left: "50%", top: "72%", xPercent: -65, yPercent: 4, x: 0, y: 0, scale: 0.30, rotation: 0, opacity: 0 });
-  gsap.set(shadow, { opacity: 0.8, y: 0, scale: 1 });
+  gsap.set(cup, { scale: 1.3, rotation: 0 });
+  gsap.set(shadow, { opacity: 0.9 });
 
-  // Fade in on scroll — invisible on hero, appears when cost section enters
-  gsap.fromTo(cup, { opacity: 0 }, { scrollTrigger: { trigger: "#cost", start: "top 90%", end: "top 55%", scrub: 0.8 }, opacity: 1, immediateRender: false });
+  ScrollTrigger.create({
+    trigger: "#cost",
+    start: "top 20%",
+    end: "max",
+    pin: "#floating-cup",
+    pinSpacing: false
+  });
 
-  // Coffee fill — mobile, slowly fills across all sections, completing at #final
   gsap.fromTo("#cup-filled-img",
     { clipPath: "inset(100% 0 0% 0)" },
-    { scrollTrigger: { trigger: "#cost", start: "top 100%", endTrigger: "#final", end: "center center", scrub: 1 }, clipPath: "inset(0% 0 0% 0)", ease: "none" }
+    { scrollTrigger: { trigger: "#cost", start: "top 20%", endTrigger: "#final", end: "center center", scrub: 1 }, clipPath: "inset(0% 0 0% 0)", ease: "none" }
   );
 
-  // 1. Hero → Cost: cup centers and grows
-  gsap.fromTo(cup,
-    { left: "50%", top: "72%", xPercent: -65, yPercent: 4, scale: 0.30, rotation: 0 },
-    { scrollTrigger: { trigger: "#cost", start: "top 80%", end: "top 40%", scrub: 1 }, left: "50%", top: "52%", xPercent: -50, yPercent: -50, scale: 1.3, rotation: -5, immediateRender: false }
-  );
+  // 2. Cost → Features
+  gsap.to(cup, {
+    scrollTrigger: { trigger: "#features", start: "top 70%", end: "top 30%", scrub: 1 },
+    left: "85vw", top: "15%", xPercent: -50, yPercent: -50, scale: 0.5, rotation: 345, immediateRender: false
+  });
 
-  // 2. Cost → Features: cup to top-right corner
-  gsap.fromTo(cup,
-    { left: "50%", top: "52%", xPercent: -50, yPercent: -50, scale: 1.3, rotation: -5 },
-    { scrollTrigger: { trigger: "#features", start: "top 70%", end: "top 30%", scrub: 1 }, left: "85vw", top: "15%", xPercent: -50, yPercent: -50, scale: 0.5, rotation: 345, immediateRender: false }
-  );
+  gsap.to(shadow, { scrollTrigger: { trigger: "#features", start: "top 70%", end: "top 30%", scrub: 1 }, opacity: 0, immediateRender: false });
+
+  // 2b. Ownership enter (Mobile)
+  gsap.to(cup, {
+    scrollTrigger: { trigger: "#ownership", start: "top 70%", end: "top 30%", scrub: 1 },
+    left: "50%", top: "30%", xPercent: -50, yPercent: -50, scale: 0.6, rotation: 360, immediateRender: false
+  });
+
+  // 2c. Ownership exit / Enter Testimonials (Mobile)
+  gsap.to(cup, {
+    scrollTrigger: { trigger: "#testimonials", start: "top 70%", end: "top 30%", scrub: 1 },
+    left: "50%", top: "40%", xPercent: -50, yPercent: -50, scale: 0.8, rotation: 335, immediateRender: false
+  });
 
   // 3. To Final
-  gsap.fromTo(cup,
-    { left: "85vw", top: "15%", xPercent: -50, yPercent: -50, scale: 0.5, rotation: 345 },
-    { scrollTrigger: { trigger: "#final", start: "top 70%", end: "top 10%", scrub: 1 }, left: "50%", top: "45%", xPercent: -50, yPercent: -50, scale: 1.3, rotation: 360, immediateRender: false }
-  );
-
-  gsap.fromTo(shadow, { opacity: 0 }, { scrollTrigger: { trigger: "#final", start: "top 70%", end: "top 10%", scrub: 1 }, opacity: 1, immediateRender: false });
+  gsap.to(cup, {
+    scrollTrigger: { trigger: "#final", start: "top 70%", end: "top 10%", scrub: 1 },
+    left: "50%", top: "45%", xPercent: -50, yPercent: -50, scale: 1.3, rotation: 360, immediateRender: false
+  });
 });
 
 // --- FOOTER SCROLL AWAY FIX ---
