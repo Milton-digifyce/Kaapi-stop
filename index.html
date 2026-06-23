@@ -1136,7 +1136,7 @@ mm.add("(min-width: 769px)", () => {
   // 4. To Final (from right side, original behavior)
   gsap.fromTo(cup,
     { left: "80vw", top: "40%", xPercent: -50, yPercent: -50, scale: 1, rotation: 330 },
-    { scrollTrigger: { trigger: "#final", start: "top 60%", end: "top 10%", scrub: 1.2 }, left: "50%", top: "50%", xPercent: -50, yPercent: -50, scale: 1.5, rotation: 360, immediateRender: false }
+    { scrollTrigger: { trigger: "#final", start: "top 60%", end: "top 10%", scrub: 1.2 }, left: "50%", top: "50%", xPercent: -50, yPercent: -50, scale: 1.2, rotation: 360, immediateRender: false }
   );
   gsap.fromTo(shadow, { opacity: 0 }, { scrollTrigger: { trigger: "#final", start: "top 60%", end: "top 10%", scrub: 1.2 }, opacity: 1, immediateRender: false });
 });
